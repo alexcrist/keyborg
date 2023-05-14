@@ -1,12 +1,22 @@
 #include "display.h"
 #include "print.h"
+#include "audio.h"
+#include "knob.h"
 
 void setup() {
+    initPrint();
     initDisplay();
+    initAudio();
+    initKnob();
 }
 
 void loop() {
-    // print("hello world!");
+    print("hello world!");
     display("hello world");
-    delay(1000);
+    // audioBoop();
+    readKnob();
+    if (wasKnobTurned()) {
+        print(getKnobTurn());
+    }
+    delay(200);
 }
