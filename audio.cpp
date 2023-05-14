@@ -7,21 +7,21 @@
 
 #include "audio.h"
 
-AudioSynthWaveform    waveform1;
-AudioOutputI2S        i2s1;
-AudioConnection       patchCord1(waveform1, 0, i2s1, 0);
-AudioConnection       patchCord2(waveform1, 0, i2s1, 1);
-AudioControlSGTL5000  sgtl5000_1;
+AudioSynthWaveform waveform1;
+AudioOutputI2S i2s1;
+AudioConnection patchCord1(waveform1, 0, i2s1, 0);
+AudioConnection patchCord2(waveform1, 0, i2s1, 1);
+AudioControlSGTL5000 sgtl5000_1;
 
 void initAudio() {
-  AudioMemory(10);
-  sgtl5000_1.enable();
-  sgtl5000_1.volume(0.5);
+    AudioMemory(10);
+    sgtl5000_1.enable();
+    sgtl5000_1.volume(0.5);
 }
 
 void audioBoop() {
-  waveform1.frequency(440);
-  waveform1.amplitude(0.9);
-  delay(250);
-  waveform1.amplitude(0);
+    waveform1.frequency(440);
+    waveform1.amplitude(0.9);
+    delay(250);
+    waveform1.amplitude(0);
 }
