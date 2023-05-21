@@ -2,21 +2,30 @@
 #include "print.h"
 #include "audio.h"
 #include "knob.h"
+#include "keys.h"
 
 void setup() {
     initPrint();
-    initDisplay();
-    initAudio();
-    initKnob();
+    // initDisplay();
+    // initAudio();
+    // initKnob();
+    initKeys();
 }
 
 void loop() {
-    print("hello world!");
-    display("hello world");
+    // display("hello world");
+    
     // audioBoop();
-    readKnob();
-    if (wasKnobTurned()) {
-        print(getKnobTurn());
-    }
+    // readKnob();
+    // if (wasKnobTurned()) {
+    // }
+
+    // getPressedKeys();
+
+    Serial.println("READ KEYS");
+    readKeys();
+    printPressedKeys();
+
+
     delay(200);
 }

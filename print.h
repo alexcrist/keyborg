@@ -3,8 +3,4 @@
 
 void initPrint();
 
-void print(String message);
-
-void print(long message);
-
 #endif
