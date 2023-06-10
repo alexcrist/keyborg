@@ -5,6 +5,4 @@ void initKeys();
 
 void readKeys();
 
-void printPressedKeys();
-
 #endif

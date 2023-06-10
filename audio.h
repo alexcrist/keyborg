@@ -3,6 +3,6 @@
 
 void initAudio();
 
-void audioBoop();
+void setAudioAmplitude(float amplitude);
 
 #endif

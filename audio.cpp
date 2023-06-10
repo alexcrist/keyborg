@@ -17,11 +17,10 @@ void initAudio() {
     AudioMemory(10);
     sgtl5000_1.enable();
     sgtl5000_1.volume(0.5);
-}
-
-void audioBoop() {
     waveform1.frequency(440);
     waveform1.amplitude(0.9);
-    delay(250);
-    waveform1.amplitude(0);
+}
+
+void setAudioAmplitude(float amplitude) {
+    waveform1.amplitude(amplitude);
 }

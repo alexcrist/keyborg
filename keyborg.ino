@@ -3,29 +3,20 @@
 #include "audio.h"
 #include "knob.h"
 #include "keys.h"
+#include "distance.h"
+
+using namespace std;
+
+#define MAX_DISTANCE 300.0
 
 void setup() {
     initPrint();
-    // initDisplay();
-    // initAudio();
-    // initKnob();
-    initKeys();
+    initAudio();
+    initDistance();
 }
 
 void loop() {
-    // display("hello world");
-    
-    // audioBoop();
-    // readKnob();
-    // if (wasKnobTurned()) {
-    // }
-
-    // getPressedKeys();
-
-    Serial.println("READ KEYS");
-    readKeys();
-    printPressedKeys();
-
-
-    delay(200);
+    int distance = readDistance();
+    float amplitude = max(min(1, (MAX_DISTANCE - distance) / MAX_DISTANCE), 0);
+    setAudioAmplitude(amplitude);
 }
