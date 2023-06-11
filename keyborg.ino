@@ -1,4 +1,3 @@
-#include <Arduino.h>
 #include <string.h>
 
 #include "display.h"
@@ -8,8 +7,6 @@
 #include "keys.h"
 #include "distance.h"
 #include "scales.h"
-
-#define MAX_DISTANCE 1000.0
 
 void setup() {
     initPrint();
@@ -22,17 +19,12 @@ void setup() {
 
 void loop() {
 
-    // Calculate waveforms' amplitude
-    int distance = readDistance();
-    float amplitude = max(min(1, (MAX_DISTANCE - distance) / MAX_DISTANCE), 0);
-
-    // Calculate waveforms' frequencies
+    // Update waveforms' amplitudes and frequencies
+    float amplitude = readDistance();
     int numPressedKeys = getNumPressedKeys();
     int** pressedKeys = readPressedKeys();
-    float* freqs = getFrequencies(pressedKeys, numPressedKeys);
-
-    // Update waveforms
-    updateWaveforms(amplitude, freqs, numPressedKeys);
+    float* frequencies = getFrequencies(pressedKeys, numPressedKeys);
+    updateWaveforms(amplitude, frequencies, numPressedKeys);
 
     // Read knob
     readKnob();
