@@ -4,7 +4,7 @@
 #include "distance.h"
 #include "VL53L0X.h"
 
-VL53L0X sensor;
+static VL53L0X sensor;
 
 void initDistance() {
     Wire1.begin();

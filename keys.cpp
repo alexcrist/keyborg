@@ -2,25 +2,17 @@
 
 #include "keys.h"
 
-const int colPins[] = { 28, 27, 26, 12, 9, 6, 4 };
-const int rowPins[] = { 32, 31, 30, 29, 3, 2, 1, 0 };
-const int numCols = 7;
-const int numRows = 8;
-const int numKeys = numCols * numRows;
+static const int colPins[] = { 28, 27, 26, 12, 9, 6, 4 };
+static const int rowPins[] = { 32, 31, 30, 29, 3, 2, 1, 0 };
+static const int numCols = 7;
+static const int numRows = 8;
+static const int numKeys = numCols * numRows;
 
-int keyValues[numCols][numRows];
-int numPressedKeys;
-int** pressedKeys;
+static int keyValues[numCols][numRows];
+static int numPressedKeys;
+static int** pressedKeys;
 
-// This function is possibly unnecessary
 void initKeys() {
-    for (int i = 0; i < numRows; i++) {
-        pinMode(rowPins[i], INPUT);
-    }
-    for (int i = 0; i < numCols; i++) {
-        pinMode(colPins[i], INPUT_PULLUP);
-        delayMicroseconds(10);
-    }
     pressedKeys = (int**) malloc(numKeys * sizeof(int*));
     for (int i = 0; i < numKeys; i++) {
         pressedKeys[i] = (int*) malloc(2 * sizeof(int));

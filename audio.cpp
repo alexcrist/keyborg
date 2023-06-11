@@ -1,82 +1,109 @@
 #include <Audio.h>
+#include <string.h>
 
 #include "audio.h"
 
-#include <Audio.h>
-#include <Wire.h>
-#include <SPI.h>
-#include <SD.h>
-#include <SerialFlash.h>
-
-AudioSynthWaveformSine sine1;
-AudioSynthWaveformSine sine2;
-AudioSynthWaveformSine sine3;
-AudioSynthWaveformSine sine4;
-AudioSynthWaveformSine sine5;
-AudioSynthWaveformSine sine6;
-AudioSynthWaveformSine sine7;
-AudioSynthWaveformSine sine8;
-AudioSynthWaveformSine sine9;
-AudioSynthWaveformSine sine10;
-AudioSynthWaveformSine sine11;
-AudioSynthWaveformSine sine12;
-AudioSynthWaveformSine sine13;
-AudioSynthWaveformSine sine14;
-AudioSynthWaveformSine sine15;
-AudioSynthWaveformSine sine16;
+AudioSynthWaveform waveform1;
+AudioSynthWaveform waveform2;
+AudioSynthWaveform waveform3;
+AudioSynthWaveform waveform4;
+AudioSynthWaveform waveform5;
+AudioSynthWaveform waveform6;
+AudioSynthWaveform waveform7;
+AudioSynthWaveform waveform8;
+AudioSynthWaveform waveform9;
+AudioSynthWaveform waveform10;
+AudioSynthWaveform waveform11;
+AudioSynthWaveform waveform12;
+AudioSynthWaveform waveform13;
+AudioSynthWaveform waveform14;
+AudioSynthWaveform waveform15;
+AudioSynthWaveform waveform16;
 AudioMixer4 mixer1;
 AudioMixer4 mixer2;
 AudioMixer4 mixer3;
 AudioMixer4 mixer4;
 AudioMixer4 mixer5;
 AudioOutputI2S i2s1;
-AudioConnection patchCord1(sine5, 0, mixer2, 0);
-AudioConnection patchCord2(sine8, 0, mixer2, 3);
-AudioConnection patchCord3(sine6, 0, mixer2, 1);
-AudioConnection patchCord4(sine7, 0, mixer2, 2);
-AudioConnection patchCord5(sine12, 0, mixer3, 3);
-AudioConnection patchCord6(sine11, 0, mixer3, 2);
-AudioConnection patchCord7(sine10, 0, mixer3, 1);
-AudioConnection patchCord8(sine9, 0, mixer3, 0);
-AudioConnection patchCord9(sine2, 0, mixer1, 1);
-AudioConnection patchCord10(sine3, 0, mixer1, 2);
-AudioConnection patchCord11(sine4, 0, mixer1, 3);
-AudioConnection patchCord12(sine1, 0, mixer1, 0);
+AudioConnection patchCord1(waveform5, 0, mixer2, 0);
+AudioConnection patchCord2(waveform8, 0, mixer2, 3);
+AudioConnection patchCord3(waveform6, 0, mixer2, 1);
+AudioConnection patchCord4(waveform7, 0, mixer2, 2);
+AudioConnection patchCord5(waveform12, 0, mixer3, 3);
+AudioConnection patchCord6(waveform11, 0, mixer3, 2);
+AudioConnection patchCord7(waveform10, 0, mixer3, 1);
+AudioConnection patchCord8(waveform9, 0, mixer3, 0);
+AudioConnection patchCord9(waveform2, 0, mixer1, 1);
+AudioConnection patchCord10(waveform3, 0, mixer1, 2);
+AudioConnection patchCord11(waveform4, 0, mixer1, 3);
+AudioConnection patchCord12(waveform1, 0, mixer1, 0);
 AudioConnection patchCord13(mixer2, 0, mixer5, 1);
 AudioConnection patchCord14(mixer3, 0, mixer5, 2);
-AudioConnection patchCord15(sine13, 0, mixer4, 0);
-AudioConnection patchCord16(sine14, 0, mixer4, 1);
+AudioConnection patchCord15(waveform13, 0, mixer4, 0);
+AudioConnection patchCord16(waveform14, 0, mixer4, 1);
 AudioConnection patchCord17(mixer1, 0, mixer5, 0);
-AudioConnection patchCord18(sine15, 0, mixer4, 2);
-AudioConnection patchCord19(sine16, 0, mixer4, 3);
+AudioConnection patchCord18(waveform15, 0, mixer4, 2);
+AudioConnection patchCord19(waveform16, 0, mixer4, 3);
 AudioConnection patchCord20(mixer5, 0, i2s1, 0);
 AudioConnection patchCord21(mixer5, 0, i2s1, 1);
 AudioConnection patchCord22(mixer4, 0, mixer5, 3);
 AudioControlSGTL5000 sgtl5000_1;
 
-float amplitudeModifier = 0.25;
-int numWaveforms = 16;
-AudioSynthWaveformSine* waveforms[] = {
-    &sine1,
-    &sine2,
-    &sine3,
-    &sine4,
-    &sine5,
-    &sine6,
-    &sine7,
-    &sine8,
-    &sine9,
-    &sine10,
-    &sine11,
-    &sine12,
-    &sine13,
-    &sine14,
-    &sine15,
-    &sine16
+static const float amplitudeModifier = 0.25;
+static const int numWaveforms = 16;
+static AudioSynthWaveform* waveforms[] = {
+    &waveform1,
+    &waveform2,
+    &waveform3,
+    &waveform4,
+    &waveform5,
+    &waveform6,
+    &waveform7,
+    &waveform8,
+    &waveform9,
+    &waveform10,
+    &waveform11,
+    &waveform12,
+    &waveform13,
+    &waveform14,
+    &waveform15,
+    &waveform16
+};
+
+static const int numWaveformTypes = 12;
+static const int waveformTypes[] = {
+    WAVEFORM_SINE,
+    WAVEFORM_SAWTOOTH,
+    WAVEFORM_SQUARE,
+    WAVEFORM_TRIANGLE,
+    WAVEFORM_ARBITRARY,
+    WAVEFORM_PULSE,
+    WAVEFORM_SAWTOOTH_REVERSE,
+    WAVEFORM_SAMPLE_HOLD,
+    WAVEFORM_TRIANGLE_VARIABLE,
+    WAVEFORM_BANDLIMIT_SAWTOOTH,
+    WAVEFORM_BANDLIMIT_SAWTOOTH_REVERSE,
+    WAVEFORM_BANDLIMIT_SQUARE,
+    WAVEFORM_BANDLIMIT_PULSE,
+};
+static const String waveformTypeNames[] = {
+    "WAVEFORM_SINE",
+    "WAVEFORM_SAWTOOTH",
+    "WAVEFORM_SQUARE",
+    "WAVEFORM_TRIANGLE",
+    "WAVEFORM_ARBITRARY",
+    "WAVEFORM_PULSE",
+    "WAVEFORM_SAWTOOTH_REVERSE",
+    "WAVEFORM_SAMPLE_HOLD",
+    "WAVEFORM_TRIANGLE_VARIABLE",
+    "WAVEFORM_BANDLIMIT_SAWTOOTH",
+    "WAVEFORM_BANDLIMIT_SAWTOOTH_REVERSE",
+    "WAVEFORM_BANDLIMIT_SQUARE",
+    "WAVEFORM_BANDLIMIT_PULSE",
 };
 
 void initAudio(int maxNumNotes) {
-    AudioMemory(10);
+    AudioMemory(32);
     sgtl5000_1.enable();
     sgtl5000_1.volume(1);
 }
@@ -89,5 +116,19 @@ void updateWaveforms(float amplitude, float* freqs, int numFreqs) {
         } else {
             waveforms[i]->amplitude(0);
         }
+    }
+}
+
+int getNumWaveformTypes() {
+  return numWaveformTypes;
+}
+
+String getWaveformTypeName(int waveformTypeIndex) {
+  return waveformTypeNames[waveformTypeIndex];
+}
+
+void setWaveformTypeIndex(int waveformTypeIndex) {
+    for (int i = 0; i < numWaveforms; i++) {
+        waveforms[i]->begin(waveformTypes[waveformTypeIndex]);
     }
 }

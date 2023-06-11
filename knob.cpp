@@ -2,24 +2,20 @@
 
 #include "knob.h"
 
-Encoder knob(33, 34);
-bool _wasKnobTurned = false;
-long _knobTurn = -999;
-
-void initKnob() {
-    _knobTurn = knob.read();
-}
+static Encoder knob(33, 34);
+static bool wasTurned = false;
+static long knobTurn = -999;
 
 void readKnob() {
-    long newKnobTurn = knob.read();
-    _wasKnobTurned = (newKnobTurn != _knobTurn);
-    _knobTurn = newKnobTurn;
+    long newKnobTurn = floor(knob.read() / 4.0);
+    wasTurned = (newKnobTurn != knobTurn);
+    knobTurn = newKnobTurn;
 }
 
 bool wasKnobTurned() {
-    return _wasKnobTurned;
+    return wasTurned;
 }
 
 long getKnobTurn() {
-    return _knobTurn;
+    return knobTurn;
 }
