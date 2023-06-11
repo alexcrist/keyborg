@@ -1,26 +1,39 @@
 #include <Audio.h>
-#include <Wire.h>
-#include <SD.h>
-#include <SPI.h>
-#include <SerialFlash.h>
-#include <Bounce.h>
 
 #include "audio.h"
 
-AudioSynthWaveform waveform1;
-AudioOutputI2S i2s1;
-AudioConnection patchCord1(waveform1, 0, i2s1, 0);
-AudioConnection patchCord2(waveform1, 0, i2s1, 1);
-AudioControlSGTL5000 sgtl5000_1;
+AudioSynthWaveformSine   sine2;          //xy=207,260
+AudioSynthWaveformSine   sine3;          //xy=207,294
+AudioSynthWaveformSine   sine4;          //xy=208,334
+AudioSynthWaveformSine   sine1;          //xy=211,222
+AudioMixer4              mixer1;         //xy=440,298
+AudioOutputI2S           i2s1;           //xy=610,305
+AudioConnection          patchCord1(sine2, 0, mixer1, 1);
+AudioConnection          patchCord2(sine3, 0, mixer1, 2);
+AudioConnection          patchCord3(sine4, 0, mixer1, 3);
+AudioConnection          patchCord4(sine1, 0, mixer1, 0);
+AudioConnection          patchCord5(mixer1, 0, i2s1, 0);
+AudioConnection          patchCord6(mixer1, 0, i2s1, 1);
 
-void initAudio() {
+int numWaveforms = 4;
+AudioSynthWaveformSine* waveforms[] = {
+    &sine1,
+    &sine2,
+    &sine3,
+    &sine4
+};
+
+void initAudio(int maxNumNotes) {
     AudioMemory(10);
-    sgtl5000_1.enable();
-    sgtl5000_1.volume(0.5);
-    waveform1.frequency(440);
-    waveform1.amplitude(0.9);
 }
 
-void setAudioAmplitude(float amplitude) {
-    waveform1.amplitude(amplitude);
+void updateWaveforms(float amplitude, float* freqs, int numFreqs) {
+    for (int i = 0; i < numWaveforms; i++) {
+        if (i < numFreqs && freqs[i] != -1) {
+            waveforms[i]->frequency(freqs[i]);
+            waveforms[i]->amplitude(amplitude * (1.0 / numWaveforms));
+        } else {
+            waveforms[i]->amplitude(0);
+        }
+    }
 }

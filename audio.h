@@ -1,8 +1,8 @@
 #ifndef KEYBORG_AUDIO_H
 #define KEYBORG_AUDIO_H
 
-void initAudio();
+void initAudio(int maxNumNotes);
 
-void setAudioAmplitude(float amplitude);
+void updateWaveforms(float amplitude, float* freqs, int numFreqs);
 
 #endif

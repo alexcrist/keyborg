@@ -3,6 +3,10 @@
 
 void initKeys();
 
-void readKeys();
+int getNumKeys();
+
+int getNumPressedKeys();
+
+int** readPressedKeys();
 
 #endif

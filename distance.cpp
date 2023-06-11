@@ -1,4 +1,7 @@
+#include <Arduino.h>
 #include <Wire.h>
+
+#include "distance.h"
 #include "VL53L0X.h"
 
 VL53L0X sensor;
