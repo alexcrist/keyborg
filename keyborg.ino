@@ -9,7 +9,7 @@
 #include "distance.h"
 #include "scales.h"
 
-#define MAX_DISTANCE 200.0
+#define MAX_DISTANCE 1000.0
 
 void setup() {
     initPrint();

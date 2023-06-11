@@ -105,7 +105,7 @@ static const String waveformTypeNames[] = {
 void initAudio(int maxNumNotes) {
     AudioMemory(32);
     sgtl5000_1.enable();
-    sgtl5000_1.volume(1);
+    sgtl5000_1.volume(0.9);
 }
 
 void updateWaveforms(float amplitude, float* freqs, int numFreqs) {
