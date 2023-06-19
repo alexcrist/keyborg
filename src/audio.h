@@ -1,13 +1,13 @@
 #ifndef KEYBORG_AUDIO_H
 #define KEYBORG_AUDIO_H
 
-#include <string.h>
+#include <Audio.h>
 
 void initAudio(int maxNumNotes);
 
-void updateWaveforms(float amplitude, float* freqs, int numFreqs);
+void updateWavetables(float amplitude, float* freqs, int numFreqs);
 
-void setWaveformType(int waveformType);
+void setInstrument(const AudioSynthWavetable::instrument_data& instrument);
 
 void setVolume(float volume);
 

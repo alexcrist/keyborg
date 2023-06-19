@@ -1,23 +1,87 @@
 #include <Audio.h>
 #include <string.h>
 
+#include "instruments/MidiSynthLarge/bassoon_samples.h"
+#include "instruments/MidiSynthLarge/clarinet_samples.h"
+#include "instruments/MidiSynthLarge/distortiongt_samples.h"
+#include "instruments/MidiSynthLarge/epiano_samples.h"
+#include "instruments/MidiSynthLarge/flute_samples.h"
+#include "instruments/MidiSynthLarge/frenchhorn_samples.h"
+#include "instruments/MidiSynthLarge/glockenspiel_samples.h"
+#include "instruments/MidiSynthLarge/gtfretnoise_samples.h"
+#include "instruments/MidiSynthLarge/harmonica_samples.h"
+#include "instruments/MidiSynthLarge/harp_samples.h"
+#include "instruments/MidiSynthLarge/mutedgtr_samples.h"
+#include "instruments/MidiSynthLarge/nylonstrgtr_samples.h"
+#include "instruments/MidiSynthLarge/oboe_samples.h"
+#include "instruments/MidiSynthLarge/overdrivegt_samples.h"
+#include "instruments/MidiSynthLarge/piano_samples.h"
+#include "instruments/MidiSynthLarge/recorder_samples.h"
+#include "instruments/MidiSynthLarge/steelstrgtr_samples.h"
+#include "instruments/MidiSynthLarge/strings_samples.h"
+#include "instruments/MidiSynthLarge/timpani_samples.h"
+#include "instruments/MidiSynthLarge/trombone_samples.h"
+#include "instruments/MidiSynthLarge/trumpet_samples.h"
+#include "instruments/MidiSynthLarge/tuba_samples.h"
+#include "instruments/MidiSynthLarge/vibraphone_samples.h"
+
 #include "settings.h"
 #include "display.h"
 #include "distance.h"
 #include "audio.h"
 #include "scales.h"
 
-static int waveformTypeIndex = 0;
-static const int numWaveformTypes = 12;
-static const int waveformTypes[] = {
-    WAVEFORM_SINE, WAVEFORM_SAWTOOTH, WAVEFORM_SQUARE, WAVEFORM_TRIANGLE, WAVEFORM_ARBITRARY, WAVEFORM_PULSE,
-    WAVEFORM_SAWTOOTH_REVERSE, WAVEFORM_SAMPLE_HOLD, WAVEFORM_TRIANGLE_VARIABLE, WAVEFORM_BANDLIMIT_SAWTOOTH,
-    WAVEFORM_BANDLIMIT_SAWTOOTH_REVERSE, WAVEFORM_BANDLIMIT_SQUARE, WAVEFORM_BANDLIMIT_PULSE,
+static int instrumentIndex = 0;
+static const int numInstruments = 23;
+static const AudioSynthWavetable::instrument_data instruments[] = {
+    bassoon,
+    clarinet,
+    distortiongt,
+    epiano,
+    flute,
+    frenchhorn,
+    glockenspiel,
+    gtfretnoise,
+    harmonica,
+    harp,
+    mutedgtr,
+    nylonstrgtr,
+    oboe,
+    overdrivegt,
+    piano,
+    recorder,
+    steelstrgtr,
+    strings,
+    timpani,
+    trombone,
+    trumpet,
+    tuba,
+    vibraphone,
 };
-static const String waveformTypeNames[] = {
-    "SINE", "SAWTOOTH", "SQUARE", "TRIANGLE", "ARBITRARY", "PULSE",
-    "SAWTOOTH_REVERSE", "SAMPLE_HOLD", "TRIANGLE_VARIABLE", "BANDLIMIT_SAWTOOTH",
-    "BANDLIMIT_SAWTOOTH_REVERSE", "BANDLIMIT_SQUARE", "BANDLIMIT_PULSE",
+static const String instrumentNames[] = {
+    "bassoon",
+    "clarinet",
+    "distortiongt",
+    "epiano",
+    "flute",
+    "frenchhorn",
+    "glockenspiel",
+    "gtfretnoise",
+    "harmonica",
+    "harp",
+    "mutedgtr",
+    "nylonstrgtr",
+    "oboe",
+    "overdrivegt",
+    "piano",
+    "recorder",
+    "steelstrgtr",
+    "strings",
+    "timpani",
+    "trombone",
+    "trumpet",
+    "tuba",
+    "vibraphone",
 };
 
 static int volumeIndex = 4;
@@ -37,12 +101,12 @@ static const String scaleNames[] = { "C", "C#", "D", "D#", "E", "F", "F#", "G", 
 
 static int settingsIndex = 0;
 static const int numSettings = 4;
-static const String settingsNames[] = { "Waveform type", "Volume", "Distance range", "Scale" };
+static const String settingsNames[] = { "Instrument", "Volume", "Distance range", "Scale" };
 
 void displaySettings() {
     String message = settingsNames[settingsIndex] + ": ";
     if (settingsIndex == 0) {
-        message += waveformTypeNames[waveformTypeIndex];
+        message += instrumentNames[instrumentIndex];
     } else if (settingsIndex == 1) { 
         message += volumeNames[volumeIndex];
     } else if (settingsIndex == 2) { 
@@ -59,6 +123,7 @@ int updateIndex(int oldIndex, int numOptions, int indexDiff) {
 
 void initSettings() {
     displaySettings();
+    setInstrument(instruments[instrumentIndex]);
 }
 
 void changeSettingsIndex(int indexDiff) {
@@ -68,8 +133,8 @@ void changeSettingsIndex(int indexDiff) {
 
 void changeSettingsValue(int indexDiff) {
     if (settingsIndex == 0) {
-        waveformTypeIndex = updateIndex(waveformTypeIndex, numWaveformTypes, indexDiff);
-        setWaveformType(waveformTypes[waveformTypeIndex]);
+        instrumentIndex = updateIndex(instrumentIndex, numInstruments, indexDiff);
+        setInstrument(instruments[instrumentIndex]);
     } else if (settingsIndex == 1) { 
         volumeIndex = updateIndex(volumeIndex, numVolumes, indexDiff);
         setVolume(volumes[volumeIndex]);

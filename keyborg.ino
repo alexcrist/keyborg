@@ -1,5 +1,3 @@
-#include <string.h>
-
 #include "src/display.h"
 #include "src/print.h"
 #include "src/audio.h"
@@ -22,12 +20,12 @@ void setup() {
 
 void loop() {
 
-    // Update waveforms' amplitudes and frequencies
+    // Update sounds' amplitudes and frequencies
     float amplitude = readDistance();
     int numPressedKeys = getNumPressedKeys();
     int** pressedKeys = readPressedKeys();
     float* frequencies = getFrequencies(pressedKeys, numPressedKeys);
-    updateWaveforms(amplitude, frequencies, numPressedKeys);
+    updateWavetables(amplitude, frequencies, numPressedKeys);
 
     // Read knob, update settings
     int knobTurnDiff = readKnobTurnDiff();

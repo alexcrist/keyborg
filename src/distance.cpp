@@ -1,8 +1,8 @@
 #include <Arduino.h>
 #include <Wire.h>
+#include <VL53L0X.h>
 
 #include "distance.h"
-#include "lib/VL53L0X.h"
 
 static VL53L0X sensor;
 

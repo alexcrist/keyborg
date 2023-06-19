@@ -1,4 +1,5 @@
 #include <stdlib.h>
+
 #include "scales.h"
 #include "keys.h"
 
