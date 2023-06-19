@@ -5,4 +5,6 @@ void initDistance();
 
 float readDistance();
 
+void setDistanceRange(int distanceRange);
+
 #endif

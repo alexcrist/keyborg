@@ -7,14 +7,17 @@
 #include "keys.h"
 #include "distance.h"
 #include "scales.h"
+#include "settings.h"
 
 void setup() {
     initPrint();
     initKeys();
+    initKnob();
     initAudio(getNumKeys());
     initScales(getNumKeys());
     initDisplay();
     initDistance();
+    initSettings();
 }
 
 void loop() {
@@ -26,16 +29,13 @@ void loop() {
     float* frequencies = getFrequencies(pressedKeys, numPressedKeys);
     updateWaveforms(amplitude, frequencies, numPressedKeys);
 
-    // Read knob
-    readKnob();
-    bool wasTurned = wasKnobTurned();
-    long knobValue = getKnobTurn();
-
-    // If knob was changed, update waveform type
-    if (wasTurned) {
-        int numTypes = getNumWaveformTypes();
-        int waveformTypeIndex = ((knobValue % numTypes) + numTypes) % numTypes;
-        setWaveformTypeIndex(waveformTypeIndex);
-        display(getWaveformTypeName(waveformTypeIndex));
+    // Read knob, update settings
+    int knobTurnDiff = readKnobTurnDiff();
+    int knobClickDiff = readKnobClickDiff();
+    if (knobClickDiff == 1) {
+        changeSettingsIndex(1);
+    }
+    if (knobTurnDiff != 0) {
+        changeSettingsValue(knobTurnDiff);
     }
 } 

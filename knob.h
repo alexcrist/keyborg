@@ -1,10 +1,10 @@
 #ifndef KEYBORG_KNOB_H
 #define KEYBORG_KNOB_H
 
-void readKnob();
+void initKnob();
 
-bool wasKnobTurned();
+int readKnobClickDiff();
 
-long getKnobTurn();
+int readKnobTurnDiff();
 
 #endif

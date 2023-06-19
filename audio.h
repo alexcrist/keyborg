@@ -7,10 +7,8 @@ void initAudio(int maxNumNotes);
 
 void updateWaveforms(float amplitude, float* freqs, int numFreqs);
 
-int getNumWaveformTypes();
+void setWaveformType(int waveformType);
 
-String getWaveformTypeName(int waveformTypeIndex);
-
-void setWaveformTypeIndex(int waveformTypeIndex);
+void setVolume(float volume);
 
 #endif

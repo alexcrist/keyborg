@@ -30,3 +30,7 @@ float* getFrequencies(int** pressedKeys, int numPressedKeys) {
     }
     return freqs;
 }
+
+void setScale(int noteIndex) {
+    // TODO
+}

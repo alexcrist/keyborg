@@ -49,7 +49,7 @@ AudioConnection patchCord21(mixer5, 0, i2s1, 1);
 AudioConnection patchCord22(mixer4, 0, mixer5, 3);
 AudioControlSGTL5000 sgtl5000_1;
 
-static const float amplitudeModifier = 0.25;
+static float amplitudeModifier = 0.5;
 static const int numWaveforms = 16;
 static AudioSynthWaveform* waveforms[] = {
     &waveform1,
@@ -70,42 +70,10 @@ static AudioSynthWaveform* waveforms[] = {
     &waveform16
 };
 
-static const int numWaveformTypes = 12;
-static const int waveformTypes[] = {
-    WAVEFORM_SINE,
-    WAVEFORM_SAWTOOTH,
-    WAVEFORM_SQUARE,
-    WAVEFORM_TRIANGLE,
-    WAVEFORM_ARBITRARY,
-    WAVEFORM_PULSE,
-    WAVEFORM_SAWTOOTH_REVERSE,
-    WAVEFORM_SAMPLE_HOLD,
-    WAVEFORM_TRIANGLE_VARIABLE,
-    WAVEFORM_BANDLIMIT_SAWTOOTH,
-    WAVEFORM_BANDLIMIT_SAWTOOTH_REVERSE,
-    WAVEFORM_BANDLIMIT_SQUARE,
-    WAVEFORM_BANDLIMIT_PULSE,
-};
-static const String waveformTypeNames[] = {
-    "WAVEFORM_SINE",
-    "WAVEFORM_SAWTOOTH",
-    "WAVEFORM_SQUARE",
-    "WAVEFORM_TRIANGLE",
-    "WAVEFORM_ARBITRARY",
-    "WAVEFORM_PULSE",
-    "WAVEFORM_SAWTOOTH_REVERSE",
-    "WAVEFORM_SAMPLE_HOLD",
-    "WAVEFORM_TRIANGLE_VARIABLE",
-    "WAVEFORM_BANDLIMIT_SAWTOOTH",
-    "WAVEFORM_BANDLIMIT_SAWTOOTH_REVERSE",
-    "WAVEFORM_BANDLIMIT_SQUARE",
-    "WAVEFORM_BANDLIMIT_PULSE",
-};
-
 void initAudio(int maxNumNotes) {
     AudioMemory(32);
     sgtl5000_1.enable();
-    sgtl5000_1.volume(0.9);
+    sgtl5000_1.volume(0.5);
 }
 
 void updateWaveforms(float amplitude, float* freqs, int numFreqs) {
@@ -119,16 +87,13 @@ void updateWaveforms(float amplitude, float* freqs, int numFreqs) {
     }
 }
 
-int getNumWaveformTypes() {
-  return numWaveformTypes;
-}
-
-String getWaveformTypeName(int waveformTypeIndex) {
-  return waveformTypeNames[waveformTypeIndex];
-}
-
-void setWaveformTypeIndex(int waveformTypeIndex) {
+void setWaveformType(int waveformType) {
     for (int i = 0; i < numWaveforms; i++) {
-        waveforms[i]->begin(waveformTypes[waveformTypeIndex]);
+        waveforms[i]->begin(waveformType);
     }
+}
+
+void setVolume(float volume) {
+    amplitudeModifier = volume;
+    sgtl5000_1.volume(volume);
 }

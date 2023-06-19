@@ -7,8 +7,7 @@
 static VL53L0X sensor;
 
 static const float minDistanceMM = 50;
-static const float maxDistanceMM = 700;
-static const float rangeMM = maxDistanceMM - minDistanceMM;
+static float rangeMM = 100;
 
 void initDistance() {
     Wire1.begin();
@@ -23,7 +22,9 @@ void initDistance() {
 // Outputs a distance reading from 0.0 (far) to 1.0 (close)
 float readDistance() {
     u_int16_t distanceMM = sensor.readRangeContinuousMillimeters();
-    distanceMM = max(minDistanceMM, distanceMM);
-    distanceMM = min(maxDistanceMM, distanceMM);
-    return 1 - ((distanceMM - minDistanceMM) / rangeMM);
+    return max(0, min(1, 1 - ((distanceMM - minDistanceMM) / rangeMM)));
+}
+
+void setDistanceRange(int distanceRange) {
+    rangeMM = distanceRange;
 }
