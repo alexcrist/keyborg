@@ -2,7 +2,7 @@
 #include <Wire.h>
 
 #include "distance.h"
-#include "VL53L0X.h"
+#include "lib/VL53L0X.h"
 
 static VL53L0X sensor;
 

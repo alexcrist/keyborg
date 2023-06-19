@@ -1,13 +1,13 @@
 #include <string.h>
 
-#include "display.h"
-#include "print.h"
-#include "audio.h"
-#include "knob.h"
-#include "keys.h"
-#include "distance.h"
-#include "scales.h"
-#include "settings.h"
+#include "src/display.h"
+#include "src/print.h"
+#include "src/audio.h"
+#include "src/knob.h"
+#include "src/keys.h"
+#include "src/distance.h"
+#include "src/scales.h"
+#include "src/settings.h"
 
 void setup() {
     initPrint();

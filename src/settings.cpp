@@ -1,5 +1,5 @@
 #include <Audio.h>
-#include <string>
+#include <string.h>
 
 #include "settings.h"
 #include "display.h"
